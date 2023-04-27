@@ -34,12 +34,15 @@ To build a parachain, I learned and refreshed some knowledge inclueds,
 - Substrate tutorial, [Build a parachain](https://docs.substrate.io/tutorials/build-a-parachain/)
 - [Rococo Network](https://substrate.io/developers/rococo-network/)
 
-From the tutorial, I found the parachain template, latest version is polkadot-v0.9.40 at the time of writing. So I cloned the repo, renamed to parachain, and put it in yap repo,
+From the tutorial, I found the parachain template, latest version is polkadot-v0.9.40 at the time of writing. So I cloned the repo, renamed to `parachain`, and put it in yap repo,
 
 ```shell
 git clone -b polkadot-v0.9.40 --depth 1 https://github.com/substrate-developer-hub/substrate-parachain-template
 mv substrate-parachain-template parachain
 ```
+
+To ensure the code is working, I then ran `cargo test` in parachain folder, and all the tests past! After some code cleanup, I'm happy to wrap the day!
+
 
 
 
