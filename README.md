@@ -26,3 +26,20 @@ As blockchain is mostly useful for transactional systems, so I need to first fin
 - kindness is especially valueable in group and community, but it's hard to measure and reward.
 
 I will start from *people*, the first job for this parachain is to help people to find the right people.
+
+## Day 1
+
+To build a parachain, I learned and refreshed some knowledge inclueds,
+- Polkadot wiki, [Parachain Development](https://wiki.polkadot.network/docs/build-pdk)
+- Substrate tutorial, [Build a parachain](https://docs.substrate.io/tutorials/build-a-parachain/)
+- [Rococo Network](https://substrate.io/developers/rococo-network/)
+
+From the tutorial, I found the parachain template, latest version is polkadot-v0.9.40 at the time of writing. So I cloned the repo, renamed to parachain, and put it in yap repo,
+
+```shell
+git clone -b polkadot-v0.9.40 --depth 1 https://github.com/substrate-developer-hub/substrate-parachain-template
+mv substrate-parachain-template parachain
+```
+
+
+
