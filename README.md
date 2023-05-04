@@ -45,4 +45,11 @@ To ensure the code is working, I then ran `cargo test` in parachain folder, and 
 
 ## Day 2
 
-Today comes to the business, I need to coding a pallet which can `help people find the right people`, which will likely become a blockchain based referral program later. The pallet is named `pallet-referral`.
+Today comes to the business, I need to coding a pallet which can `help people find the right people`, which will likely become a blockchain based referral program later. So this pallet is named `pallet-referral`. The business logic is similar to pallet-assets or pallet-nfts in Substrate, includes,
+
+- create a campaign, which can be deleted or closed later, the campaign has metadata like title, description, company intro, requirements, etc. And optional reward rules for referrals.
+- an account generate a referal link for the campaign, which can be shared with others on any platform like twitter, wechat, etc
+- candidate apply for the campaign with the referal link by submitting the required information like resume, github handle, linkedin, etc.
+- the company process the application by collaborating with the candidate, mostly offline. If accept, the candidate will be hired and the referrer will be rewarded with tokens, stablecoins, or NFTs by following the predefined rules. Otherwise, failed silently.
+
+With these rough ideas in mind, I followed the template pallet, and created the referral pallet. I only create the `Campaigns` storage and `create_campaign` didspatchable so far. Since start a dev network for parachain test is likely tedious, I use unit tests to ensure new logic works.
