@@ -452,6 +452,11 @@ impl pallet_template::Config for Runtime {
 	type RuntimeEvent = RuntimeEvent;
 }
 
+impl pallet_referral::Config for Runtime {
+	type StringLimit = ConstU32<50>;
+	type RuntimeEvent = RuntimeEvent;
+}
+
 // Create the runtime by composing the FRAME pallets that were previously configured.
 construct_runtime!(
 	pub enum Runtime where
@@ -484,6 +489,7 @@ construct_runtime!(
 
 		// Template
 		TemplatePallet: pallet_template = 40,
+		Referral: pallet_referral = 41,
 	}
 );
 

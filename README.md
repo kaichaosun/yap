@@ -41,8 +41,8 @@ git clone -b polkadot-v0.9.40 --depth 1 https://github.com/substrate-developer-h
 mv substrate-parachain-template parachain
 ```
 
-To ensure the code is working, I then ran `cargo test` in parachain folder, and all the tests past! After some code cleanup, I'm happy to wrap the day!
+To ensure the code is working, I then ran `cargo test` in parachain folder, and all the tests past. After some code cleanup, I'm happy to wrap the day!
 
+## Day 2
 
-
-
+Today comes to the business, I need to coding a pallet which can `help people find the right people`, which will likely become a blockchain based referral program later. The pallet is named `pallet-referral`.
