@@ -89,5 +89,19 @@ pub mod pallet {
 				Ok(().into())
 			})
 		}
+
+		#[pallet::call_index(2)]
+		#[pallet::weight(0)]
+		pub fn delete_campaign(origin: OriginFor<T>, id: u32) -> DispatchResultWithPostInfo {
+			let sender = ensure_signed(origin)?;
+
+			Campaigns::<T>::try_mutate_exists(id, |maybe_campaign| {
+				let campaign = maybe_campaign.as_ref().ok_or(Error::<T>::CampaignNotExists)?;
+				ensure!(campaign.owner == sender, Error::<T>::NotCampaignOwner);
+				*maybe_campaign = None;
+
+				Ok(().into())
+			})
+		}
 	}
 }

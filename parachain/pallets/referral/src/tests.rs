@@ -66,3 +66,38 @@ fn update_campaign_failed_when_not_owner() {
 		);
 	});
 }
+
+#[test]
+fn delete_campaign_works() {
+	new_test_ext().execute_with(|| {
+		let metadata = BoundedVec::try_from(vec![0, 1]).unwrap();
+		let _ = Referral::create_campaign(RuntimeOrigin::signed(1), 1, metadata);
+
+		assert_ok!(Referral::delete_campaign(RuntimeOrigin::signed(1), 1));
+
+		assert_eq!(Campaigns::<Test>::get(1), None);
+	})
+}
+
+#[test]
+fn delete_campaign_failed_when_campaign_not_exists() {
+	new_test_ext().execute_with(|| {
+		assert_noop!(
+			Referral::delete_campaign(RuntimeOrigin::signed(1), 1),
+			Error::<Test>::CampaignNotExists,
+		);
+	});
+}
+
+#[test]
+fn delete_campaign_failed_when_not_owner() {
+	new_test_ext().execute_with(|| {
+		let metadata = BoundedVec::try_from(vec![0, 1]).unwrap();
+		let _ = Referral::create_campaign(RuntimeOrigin::signed(1), 1, metadata);
+
+		assert_noop!(
+			Referral::delete_campaign(RuntimeOrigin::signed(2), 1),
+			Error::<Test>::NotCampaignOwner,
+		);
+	});
+}
