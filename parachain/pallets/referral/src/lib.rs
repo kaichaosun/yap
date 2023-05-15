@@ -24,7 +24,9 @@ pub mod pallet {
 	#[pallet::pallet]
 	pub struct Pallet<T>(_);
 
-	#[derive(Clone, Encode, Decode, PartialEqNoBound, Eq, RuntimeDebug, TypeInfo, MaxEncodedLen)]
+	#[derive(
+		Clone, Encode, Decode, PartialEqNoBound, Eq, RuntimeDebug, TypeInfo, MaxEncodedLen,
+	)]
 	#[scale_info(skip_type_params(T))]
 	pub struct Campaign<T: Config> {
 		pub owner: T::AccountId,
@@ -32,12 +34,7 @@ pub mod pallet {
 	}
 
 	#[pallet::storage]
-	pub type Campaigns<T: Config> = StorageMap<
-		_,
-		Blake2_128Concat,
-		u32,
-		Campaign<T>,
-	>;
+	pub type Campaigns<T: Config> = StorageMap<_, Blake2_128Concat, u32, Campaign<T>>;
 
 	#[pallet::event]
 	#[pallet::generate_deposit(pub(super) fn deposit_event)]
@@ -48,6 +45,8 @@ pub mod pallet {
 	#[pallet::error]
 	pub enum Error<T> {
 		CampaignAlreadyExists,
+		CampaignNotExists,
+		NotCampaignOwner,
 	}
 
 	#[pallet::hooks]
@@ -57,19 +56,38 @@ pub mod pallet {
 	impl<T: Config> Pallet<T> {
 		#[pallet::call_index(0)]
 		#[pallet::weight(0)]
-		pub fn create_campaign(origin: OriginFor<T>, id: u32, metadata: BoundedVec<u8, T::StringLimit>) -> DispatchResultWithPostInfo {
+		pub fn create_campaign(
+			origin: OriginFor<T>,
+			id: u32,
+			metadata: BoundedVec<u8, T::StringLimit>,
+		) -> DispatchResultWithPostInfo {
 			let sender = ensure_signed(origin)?;
 			ensure!(!Campaigns::<T>::contains_key(id), Error::<T>::CampaignAlreadyExists);
 
-			let campaign = Campaign {
-				owner: sender.clone(),
-				metadata,
-			};
+			let campaign = Campaign { owner: sender.clone(), metadata };
 			Campaigns::<T>::insert(id, campaign);
 
 			Self::deposit_event(Event::CampaignCreated(sender, id));
 
 			Ok(().into())
+		}
+
+		#[pallet::call_index(1)]
+		#[pallet::weight(0)]
+		pub fn update_campaign(
+			origin: OriginFor<T>,
+			id: u32,
+			metadata: BoundedVec<u8, T::StringLimit>,
+		) -> DispatchResultWithPostInfo {
+			let sender = ensure_signed(origin)?;
+
+			Campaigns::<T>::try_mutate(id, |maybe_campaign| {
+				let campaign = maybe_campaign.as_mut().ok_or(Error::<T>::CampaignNotExists)?;
+				ensure!(campaign.owner == sender, Error::<T>::NotCampaignOwner);
+				campaign.metadata = metadata;
+
+				Ok(().into())
+			})
 		}
 	}
 }

@@ -52,4 +52,4 @@ Today comes to the business, I need to coding a pallet which can `help people fi
 - candidate apply for the campaign with the referal link by submitting the required information like resume, github handle, linkedin, etc.
 - the company process the application by collaborating with the candidate, mostly offline. If accept, the candidate will be hired and the referrer will be rewarded with tokens, stablecoins, or NFTs by following the predefined rules. Otherwise, failed silently.
 
-With these rough ideas in mind, I followed the template pallet, and created the referral pallet. I only create the `Campaigns` storage and `create_campaign` didspatchable so far. Since start a dev network for parachain test is likely tedious, I use unit tests to ensure new logic works.
+With these rough ideas in mind, I followed the template pallet, and created the referral pallet. I only create the `Campaigns` storage and `create_campaign` didspatchable so far. Since start a dev network for parachain test is likely tedious, I ran unit tests (`cargo test -p pallet-referral`) to ensure new logic works.
