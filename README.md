@@ -18,7 +18,7 @@ It's known that building a parachain is hard, from dev to market. This repositor
 
 What to build?
 
-As blockchain is mostly useful for transactional systems, so I need to first find what's is valuable enough to setup such a transactional system. 
+As blockchain is mostly useful for transactional systems, so I need to first find what's is valuable enough to setup such a transactional system.
 - money is valuable in general sense, but too much money printed in paper or crypto way as of now
 - people is valuable, find the correct people can be tough for a lot of cases, like business partners, co-workers, etc.
 - knowledge is valuable, in words, audio, video, music, art, etc. We have too much information in this digital-verse, filter the right one is hard.
@@ -52,4 +52,12 @@ Today comes to the business, I need to coding a pallet which can `help people fi
 - candidate apply for the campaign with the referal link by submitting the required information like resume, github handle, linkedin, etc.
 - the company process the application by collaborating with the candidate, mostly offline. If accept, the candidate will be hired and the referrer will be rewarded with tokens, stablecoins, or NFTs by following the predefined rules. Otherwise, failed silently.
 
-With these rough ideas in mind, I followed the template pallet, and created the referral pallet. I only create the `Campaigns` storage and `create_campaign` didspatchable so far. Since start a dev network for parachain test is likely tedious, I use unit tests to ensure new logic works.
+With these rough ideas in mind, I followed the template pallet, and created the referral pallet. I only create the `Campaigns` storage and `create_campaign` didspatchable so far. Since start a dev network for parachain test is likely tedious, I ran unit tests (`cargo test -p pallet-referral`) to ensure new logic works.
+
+## Day 3
+
+Now it comes to add more operations to campaign like `update_campaign` and `delete_campaign`. I also add a new storage `Referrals` to store the referral codes created by sharing parters. Its operations includes `register_referral` and `delete_referral`, I intentionly do not allow update it, because it may cause confusion if you share the referral code to people but updated it later.
+
+I'm still not sure if there's need for one more storage for applications, basically it should not block user's application if it's not onchain behaviour. The same should apply to referrals, sharing parters can just share the campaign along with their account id or global indice, so that they reduce transaction fees by sacrificing a short readable code.
+
+After covering the basic business with enough tests and adding the events, I think it's a good timing to explorer frontend and setting up the local testnet!

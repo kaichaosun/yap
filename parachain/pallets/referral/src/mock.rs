@@ -51,6 +51,7 @@ impl system::Config for Test {
 
 impl pallet_referral::Config for Test {
 	type StringLimit = ConstU32<10>;
+	type MaxCodeLength = ConstU32<10>;
 	type RuntimeEvent = RuntimeEvent;
 }
 
